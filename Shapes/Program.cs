@@ -3,26 +3,22 @@
 namespace Shapes {
     class Program {
         static void Main(string[] args) {
-            Coord X = new(0, 0);
-            Coord Y = new(5, 10);
-
             string format = "{0:0.##}";
 
-            Square square = new(X, Y);
+            Square square = new(10);
             Console.WriteLine($"Total area of Square ({String.Format(format, square.Length)}²) is {String.Format(format, square.TotalArea())}");
-            Rectangle rectangle = new(X, Y);
+            Rectangle rectangle = new(10, 5);
             Console.WriteLine($"Total area of Rectangle ({String.Format(format, rectangle.Height)} * {String.Format(format, rectangle.Width)}) is {String.Format(format, rectangle.TotalArea())}");
-            Circle circle = new(X, Y);
+            Circle circle = new(10);
             Console.WriteLine($"Total area of Circle (π{String.Format(format, circle.Radius)}²) is {String.Format(format, circle.TotalArea())}");
-            
 
             Console.WriteLine("Press <ENTER> to exit...");
             Console.ReadLine();
         }
     }
 
-    class Coord {
-        public Coord(int x, int y) {
+    class Location {
+        public Location(int x, int y) {
             X = x;
             Y = y;
         }
@@ -32,12 +28,10 @@ namespace Shapes {
     }
 
     abstract class Shape {
-        public Coord X { get; set; }
-        public Coord Y { get; set; }
+        public Location Location { get; set; }
 
-        public Shape(Coord x, Coord y) {
-            X = x;
-            Y = y;
+        public Shape() {
+            Location = new(0, 0);
         }
 
         public abstract double TotalArea();
@@ -45,8 +39,8 @@ namespace Shapes {
 
     class Square : Shape {
         public double Length { get; set; }
-        public Square(Coord x, Coord y) : base(x, y) {
-            Length = Math.Min(Math.Abs(X.X - (X.X - Y.X)), Math.Abs(X.Y - (X.Y - Y.Y)));
+        public Square(int length) : base() {
+            Length = length;
         }
 
         public override double TotalArea() {
@@ -58,9 +52,9 @@ namespace Shapes {
         public int Height { get; set; }
         public int Width { get; set; }
 
-        public Rectangle(Coord x, Coord y) : base(x, y) {
-            Height = Math.Abs(X.Y - (X.Y - Y.Y));
-            Width = Math.Abs(X.X - (X.X - Y.X));
+        public Rectangle(int height, int width) : base() {
+            Height = height;
+            Width = width;
         }
 
         public override double TotalArea() {
@@ -70,9 +64,8 @@ namespace Shapes {
 
     class Circle : Shape {
         public double Radius { get; set; }
-        public Circle(Coord x, Coord y) : base(x, y) {
-            double diameter = Math.Min(Math.Abs(X.X - (X.X - Y.X)), Math.Abs(X.Y - (X.Y - Y.Y)));
-            Radius = diameter/2;
+        public Circle(int radius) : base() {
+            Radius = radius;
         }
 
         public override double TotalArea() {
